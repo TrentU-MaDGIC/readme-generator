@@ -1,3 +1,4 @@
+let showValidationErrors = false;
 
 const datasetsDiv = document.getElementById("datasets");
 const customDiv = document.getElementById("customSections");
@@ -557,14 +558,20 @@ function validateForm() {
 
   if (errors.length === 0) {
     validation.textContent = "";
-    return true;
-  }
+    showValidationErrors = false;
+      return true;
+      }
 
+if (showValidationErrors) {
   validation.textContent =
     "Missing required fields: " +
-    errors.join(", ");
+      errors.join(", ");
+  } else {
+    validation.textContent = "";
+  }
 
-  return false;
+return false;
+
 }
 // ======================
 // Preview
@@ -580,6 +587,16 @@ function updatePreview() {
 // ======================
 
 function exportReadme() {
+  
+  showValidationErrors = true;
+
+  if (!validateForm(true)) {
+    alert(
+      "Please complete required fields before exporting."
+    );   
+    return;
+    }
+  
   if (!validateForm()) {  
     alert(
       "Please complete required fields before exporting."
