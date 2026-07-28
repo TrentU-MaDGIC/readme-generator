@@ -102,12 +102,16 @@ function addContact(role = "", required = false) {
         Remove Contact
       </button>
     `}
+  `;
 
-  div.querySelector(".removeBtn")
-    .addEventListener("click", () => {
+  const removeBtn = div.querySelector(".removeBtn");
+
+  if (removeBtn) {
+    removeBtn.addEventListener("click", () => {
       div.remove();
       updatePreview();
     });
+  }
 
   contactsDiv.appendChild(div);
 
@@ -649,7 +653,7 @@ function exportReadme() {
 // Add contacts
 addContact("Principal Investigator", true);
 addContact("Co-Investigator", true);
-addContact("Alternate Contact", true);
+addContact("Alternate Contact");
 
 // Initial preview
 updatePreview();
