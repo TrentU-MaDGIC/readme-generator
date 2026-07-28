@@ -239,11 +239,43 @@ function generateReadme() {
   return out;
 }
 
+
+function validateForm() {
+
+  const errors = [];
+
+  if (!value("collectionDate").trim()) {
+    errors.push("Date of Data Collection");
+  }
+
+  if (!value("location").trim()) {
+    errors.push("Geographic Location");
+  }
+
+  if (!value("funding").trim()) {
+    errors.push("Funding Sources");
+  }
+
+  const validation =
+    document.getElementById("validation");
+
+  if (errors.length === 0) {
+    validation.textContent = "";
+    return true;
+  }
+
+  validation.textContent =
+    "Missing required fields: " +
+    errors.join(", ");
+
+  return false;
+}
 // ======================
 // Preview
 // ======================
 
 function updatePreview() {
+  validateForm();
   preview.textContent = generateReadme();
 }
 
@@ -252,6 +284,8 @@ function updatePreview() {
 // ======================
 
 function exportReadme() {
+  if (!validateForm()) {2  alert(3    "Please complete required fields before exporting."4  );5  return;6}
+  
   const content = generateReadme();
 
   const blob = new Blob(
