@@ -2,6 +2,12 @@ alert("app.js loaded");
 const datasetsDiv = document.getElementById("datasets");
 const customDiv = document.getElementById("customSections");
 const preview = document.getElementById("preview");
+const contactsDiv =
+  document.getElementById("contacts");
+
+document
+  .getElementById("addContact")
+  .addEventListener("click", addContact);
 
 // Event Listeners
 document
@@ -66,6 +72,47 @@ function addDataset() {
   updatePreview();
 }
 
+function addContact(role = "") {
+
+  const div = document.createElement("div");
+
+  div.className = "contact";
+
+  div.innerHTML = `
+    <label>Role</label>
+    <input class="contactRole" value="${role}">
+
+    <label>Name</label>
+    <input class="contactName">
+
+    <label>ORCID</label>
+    <input class="contactOrcid">
+
+    <label>Institution</label>
+    <input class="contactInstitution">
+
+    <label>Address</label>
+    <textarea class="contactAddress"></textarea>
+
+    <label>Email</label>
+    <input class="contactEmail" type="email">
+
+    <button type="button" class="removeBtn">
+      Remove Contact
+    </button>
+  `;
+
+  div.querySelector(".removeBtn")
+    .addEventListener("click", () => {
+      div.remove();
+      updatePreview();
+    });
+
+  contactsDiv.appendChild(div);
+
+  updatePreview();
+}
+
 // ======================
 // Custom Section Functions
 // ======================
@@ -118,6 +165,41 @@ function value(id) {
 function generateReadme() {
   let out = "";
 
+  out += "GENERAL INFORMATION\n";
+  out += "===================\n\n";
+
+  document
+  .querySelectorAll(".contact")
+  .forEach(contact => {
+
+    const role =
+      contact.querySelector(".contactRole").value;
+
+    const name =
+      contact.querySelector(".contactName").value;
+
+    const orcid =
+      contact.querySelector(".contactOrcid").value;
+
+    const institution =
+      contact.querySelector(".contactInstitution").value;
+
+    const address =
+      contact.querySelector(".contactAddress").value;
+
+    const email =
+      contact.querySelector(".contactEmail").value;
+
+    out += `${role}\n`;
+    out += "--------------------------\n";
+    out += `Name: ${name}\n`;
+    out += `ORCID: ${orcid}\n`;
+    out += `Institution: ${institution}\n`;
+    out += `Address: ${address}\n`;
+    out += `Email: ${email}\n\n`;
+
+  });
+  
   out += "DATE OF DATA COLLECTION\n";
   out += "=======================\n\n";
   out += value("collectionDate") + "\n\n";
@@ -314,6 +396,11 @@ function exportReadme() {
 
   URL.revokeObjectURL(url);
 }
+
+// Add contacts
+addContact("Principal Investigator");
+addContact("Co-Investigator");
+addContact("Alternate Contact");
 
 // Initial preview
 updatePreview();
