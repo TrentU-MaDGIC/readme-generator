@@ -518,6 +518,10 @@ function validateForm() {
 
   const contact = contacts[i];
 
+  if (!contact) {
+    continue;
+  }
+
   const role =
     contact.querySelector(".contactRole").value;
 
