@@ -82,19 +82,19 @@ function addContact(role = "", required = false) {
     <label>Role</label>
     <input class="contactRole" value="${role}">
 
-    <label>Name</label>
+    <label class="${required ? 'required' : ''}">Name</label>
     <input class="contactName">
 
     <label>ORCID</label>
     <input class="contactOrcid">
 
-    <label>Institution</label>
+    <label class="${required ? 'required' : ''}">Institution</label>
     <input class="contactInstitution">
 
     <label>Address</label>
     <textarea class="contactAddress"></textarea>
 
-    <label>Email</label>
+    <label class="${required ? 'required' : ''}">Email</label>
     <input class="contactEmail" type="email">
 
     ${required ? "" : `
