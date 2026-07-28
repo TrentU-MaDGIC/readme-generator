@@ -163,11 +163,18 @@ function value(id) {
 // README Generation
 // ======================
 
+function hasContent(...fields) {
+  return fields.some(
+    field => field && field.trim() !== ""
+  );
+}
+
 function generateReadme() {
+
   let out = "";
-  
+
   const today =
-  new Date().toISOString().split("T")[0];
+    new Date().toISOString().split("T")[0];
 
   out += `This readme file was generated on ${today} by ${value("generatedBy")}\n\n`;
 
@@ -176,115 +183,301 @@ function generateReadme() {
 
   out += `Title of Dataset: ${value("datasetTitle")}\n\n`;
 
+  // CONTACTS
+
   document
-  .querySelectorAll(".contact")
-  .forEach(contact => {
+    .querySelectorAll(".contact")
+    .forEach(contact => {
 
-    const role =
-      contact.querySelector(".contactRole").value;
+      const role =
+        contact.querySelector(".contactRole").value;
 
-    const name =
-      contact.querySelector(".contactName").value;
+      const name =
+        contact.querySelector(".contactName").value;
 
-    const orcid =
-      contact.querySelector(".contactOrcid").value;
+      const orcid =
+        contact.querySelector(".contactOrcid").value;
 
-    const institution =
-      contact.querySelector(".contactInstitution").value;
+      const institution =
+        contact.querySelector(".contactInstitution").value;
 
-    const address =
-      contact.querySelector(".contactAddress").value;
+      const address =
+        contact.querySelector(".contactAddress").value;
 
-    const email =
-      contact.querySelector(".contactEmail").value;
+      const email =
+        contact.querySelector(".contactEmail").value;
 
-    out += `${role}\n`;
-    out += "--------------------------\n";
-    out += `Name: ${name}\n`;
-    out += `ORCID: ${orcid}\n`;
-    out += `Institution: ${institution}\n`;
-    out += `Address: ${address}\n`;
-    out += `Email: ${email}\n\n`;
+      // Skip completely empty optional contacts
+      if (
+        !hasContent(
+          role,
+          name,
+          orcid,
+          institution,
+          address,
+          email
+        )
+      ) {
+        return;
+      }
 
-  });
-  
-  out += "DATE OF DATA COLLECTION\n";
-  out += "=======================\n\n";
-  out += value("collectionDate") + "\n\n";
+      out += `${role}\n`;
+      out += "--------------------------\n";
 
-  out += "GEOGRAPHIC LOCATION OF DATA COLLECTION\n";
-  out += "======================================\n\n";
-  out += value("location") + "\n\n";
+      if (name)
+        out += `Name: ${name}\n`;
 
-  out += "INFORMATION ABOUT FUNDING SOURCES\n";
-  out += "=================================\n\n";
-  out += value("funding") + "\n\n";
+      if (orcid)
+        out += `ORCID: ${orcid}\n`;
 
-  out += "SHARING/ACCESS INFORMATION\n";
-  out += "==========================\n\n";
+      if (institution)
+        out += `Institution: ${institution}\n`;
 
-  out += "Licenses/restrictions placed on the data:\n";
-  out += value("license") + "\n\n";
+      if (address)
+        out += `Address: ${address}\n`;
 
-  out += "Links to publications that cite or use the data:\n";
-  out += value("publications") + "\n\n";
+      if (email)
+        out += `Email: ${email}\n`;
 
-  out += "Links to other publicly accessible locations of the data:\n";
-  out += value("publicLocations") + "\n\n";
+      out += "\n";
 
-  out += "Links/relationships to ancillary data sets:\n";
-  out += value("ancillaryData") + "\n\n";
+    });
 
-  out += "Was data derived from another source?\n";
-  out += value("derivedSource") + "\n\n";
+  out += `Date of data collection: ${value("collectionDate")}\n\n`;
 
-  out += "Recommended citation for this dataset:\n";
-  out += value("citation") + "\n\n";
+  out += `Geographic location of data collection: ${value("location")}\n\n`;
 
-  out += "DATA & FILE OVERVIEW\n";
-  out += "====================\n\n";
+  out += `Information about funding sources that supported the collection of the data:\n${value("funding")}\n\n`;
 
-  out += "File List:\n";
-  out += value("fileList") + "\n\n";
+  // SHARING / ACCESS
 
-  out += "Relationship between files:\n";
-  out += value("fileRelationships") + "\n\n";
+  if (
+    hasContent(
+      value("license"),
+      value("publications"),
+      value("publicLocations"),
+      value("ancillaryData"),
+      value("derivedSource"),
+      value("citation")
+    )
+  ) {
 
-  out += "Additional related data:\n";
-  out += value("additionalData") + "\n\n";
+    out += "SHARING/ACCESS INFORMATION\n";
+    out += "==========================\n\n";
 
-  out += "Updated files:\n";
-  out += value("updatedFiles") + "\n\n";
+    if (value("license")) {
+      out += "Licenses/restrictions placed on the data:\n";
+      out += value("license") + "\n\n";
+    }
 
-  out += "Why was the file updated?\n";
-  out += value("updateReason") + "\n\n";
+    if (value("publications")) {
+      out += "Links to publications that cite or use the data:\n";
+      out += value("publications") + "\n\n";
+    }
 
-  out += "When was the file updated?\n";
-  out += value("updateDate") + "\n\n";
+    if (value("publicLocations")) {
+      out += "Links to other publicly accessible locations of the data:\n";
+      out += value("publicLocations") + "\n\n";
+    }
 
-  out += "METHODOLOGICAL INFORMATION\n";
-  out += "==========================\n\n";
+    if (value("ancillaryData")) {
+      out += "Links/relationships to ancillary data sets:\n";
+      out += value("ancillaryData") + "\n\n";
+    }
 
-  out += "Methods Used:\n";
-  out += value("methods") + "\n\n";
+    if (value("derivedSource")) {
+      out += "Was data derived from another source?\n";
+      out += value("derivedSource") + "\n\n";
+    }
 
-  out += "Processing Methods:\n";
-  out += value("processing") + "\n\n";
+    if (value("citation")) {
+      out += "Recommended citation for this dataset:\n";
+      out += value("citation") + "\n\n";
+    }
 
-  out += "Software Information:\n";
-  out += value("software") + "\n\n";
+  }
 
-  out += "Standards and Calibration:\n";
-  out += value("standards") + "\n\n";
+  // DATA & FILE OVERVIEW
 
-  out += "Environmental Conditions:\n";
-  out += value("conditions") + "\n\n";
+  if (
+    hasContent(
+      value("fileList"),
+      value("fileRelationships"),
+      value("additionalData"),
+      value("updatedFiles"),
+      value("updateReason"),
+      value("updateDate")
+    )
+  ) {
 
-  out += "Quality Assurance Procedures:\n";
-  out += value("qa") + "\n\n";
+    out += "DATA & FILE OVERVIEW\n";
+    out += "====================\n\n";
 
-  out += "Personnel:\n";
-  out += value("personnel") + "\n\n";
+    if (value("fileList")) {
+      out += "File List:\n";
+      out += value("fileList") + "\n\n";
+    }
+
+    if (value("fileRelationships")) {
+      out += "Relationship between files:\n";
+      out += value("fileRelationships") + "\n\n";
+    }
+
+    if (value("additionalData")) {
+      out += "Additional related data collected that was not included in the current data package:\n";
+      out += value("additionalData") + "\n\n";
+    }
+
+    if (value("updatedFiles")) {
+      out += "Name of updated file(s):\n";
+      out += value("updatedFiles") + "\n\n";
+    }
+
+    if (value("updateReason")) {
+      out += "Why was the file updated?\n";
+      out += value("updateReason") + "\n\n";
+    }
+
+    if (value("updateDate")) {
+      out += "When was the file updated?\n";
+      out += value("updateDate") + "\n\n";
+    }
+
+  }
+
+  // METHODOLOGICAL INFORMATION
+
+  if (
+    hasContent(
+      value("methods"),
+      value("processing"),
+      value("software"),
+      value("standards"),
+      value("conditions"),
+      value("qa"),
+      value("personnel")
+    )
+  ) {
+
+    out += "METHODOLOGICAL INFORMATION\n";
+    out += "==========================\n\n";
+
+    if (value("methods")) {
+      out += "Description of methods used for collection/generation of data:\n";
+      out += value("methods") + "\n\n";
+    }
+
+    if (value("processing")) {
+      out += "Methods for processing the data:\n";
+      out += value("processing") + "\n\n";
+    }
+
+    if (value("software")) {
+      out += "Instrument- or software-specific information needed to interpret the data:\n";
+      out += value("software") + "\n\n";
+    }
+
+    if (value("standards")) {
+      out += "Standards and calibration information:\n";
+      out += value("standards") + "\n\n";
+    }
+
+    if (value("conditions")) {
+      out += "Environmental/experimental conditions:\n";
+      out += value("conditions") + "\n\n";
+    }
+
+    if (value("qa")) {
+      out += "Quality-assurance procedures:\n";
+      out += value("qa") + "\n\n";
+    }
+
+    if (value("personnel")) {
+      out += "People involved with sample collection, processing, analysis and/or submission:\n";
+      out += value("personnel") + "\n\n";
+    }
+
+  }
+
+  // DATASETS
+
+  document
+    .querySelectorAll(".dataset")
+    .forEach(dataset => {
+
+      const filename =
+        dataset.querySelector(".filename").value;
+
+      if (!filename.trim()) {
+        return;
+      }
+
+      out += `DATA-SPECIFIC INFORMATION FOR: ${filename}\n`;
+      out += "==========================================\n\n";
+
+      const variables =
+        dataset.querySelector(".variables").value;
+
+      const rows =
+        dataset.querySelector(".rows").value;
+
+      const variableList =
+        dataset.querySelector(".variableList").value;
+
+      const missingCodes =
+        dataset.querySelector(".missingCodes").value;
+
+      const abbreviations =
+        dataset.querySelector(".abbreviations").value;
+
+      if (variables) {
+        out += `Number of variables:\n${variables}\n\n`;
+      }
+
+      if (rows) {
+        out += `Number of cases/rows:\n${rows}\n\n`;
+      }
+
+      if (variableList) {
+        out += `Variable List:\n${variableList}\n\n`;
+      }
+
+      if (missingCodes) {
+        out += `Missing data codes:\n${missingCodes}\n\n`;
+      }
+
+      if (abbreviations) {
+        out += `Specialized formats or abbreviations used:\n${abbreviations}\n\n`;
+      }
+
+    });
+
+  // CUSTOM SECTIONS
+
+  document
+    .querySelectorAll(".custom-section")
+    .forEach(section => {
+
+      const title =
+        section.querySelector(".sectionTitle").value;
+
+      const content =
+        section.querySelector(".sectionContent").value;
+
+      if (
+        !hasContent(title, content)
+      ) {
+        return;
+      }
+
+      out += `${title}\n`;
+      out += `${"=".repeat(title.length)}\n\n`;
+      out += `${content}\n\n`;
+
+    });
+
+  return out;
+}
 
   // DATASETS
 
