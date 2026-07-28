@@ -1,3 +1,4 @@
+alert("app.js loaded");
 const datasetsDiv = document.getElementById("datasets");
 const customDiv = document.getElementById("customSections");
 const preview = document.getElementById("preview");
