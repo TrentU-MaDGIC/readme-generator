@@ -164,9 +164,16 @@ function value(id) {
 
 function generateReadme() {
   let out = "";
+  
+  const today =
+  new Date().toISOString().split("T")[0];
+
+  out += `This readme file was generated on ${today} by ${value("generatedBy")}\n\n`;
 
   out += "GENERAL INFORMATION\n";
   out += "===================\n\n";
+
+  out += `Title of Dataset: ${value("datasetTitle")}\n\n`;
 
   document
   .querySelectorAll(".contact")
