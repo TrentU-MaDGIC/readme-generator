@@ -286,7 +286,9 @@ function updatePreview() {
 
 function exportReadme() {
   if (!validateForm()) {  
-    alert("Please complete required fields before exporting.");
+    alert(
+      "Please complete required fields before exporting."
+    );
     return;
   }
   
