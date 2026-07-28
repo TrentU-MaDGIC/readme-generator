@@ -10,107 +10,161 @@
 
 <div class="container">
 
+    <div class="export-bar">
+        <button id="exportButton">
+            Export README.txt
+        </button>
+    </div>
+
     <h1>Metadata README Generator</h1>
 
-    <h2>Required Metadata</h2>
+    <div id="validation" class="validation"></div>
 
-    <label>Date of Data Collection</label>
-    <textarea id="collectionDate"></textarea>
+    <div class="layout">
 
-    <label>Geographic Location of Data Collection</label>
-    <textarea id="location"></textarea>
+        <div class="panel">
 
-    <label>Funding Sources</label>
-    <textarea id="funding"></textarea>
+            <details open>
+                <summary>Required Metadata</summary>
 
-    <h2>Sharing / Access Information</h2>
+                <div class="section-content">
 
-    <label>Licenses / Restrictions</label>
-    <textarea id="license"></textarea>
+                    <label class="required">
+                        Date of Data Collection
+                    </label>
+                    <textarea id="collectionDate"></textarea>
 
-    <label>Publications</label>
-    <textarea id="publications"></textarea>
+                    <label class="required">
+                        Geographic Location
+                    </label>
+                    <textarea id="location"></textarea>
 
-    <label>Public Data Locations</label>
-    <textarea id="publicLocations"></textarea>
+                    <label class="required">
+                        Funding Sources
+                    </label>
+                    <textarea id="funding"></textarea>
 
-    <label>Ancillary Datasets</label>
-    <textarea id="ancillaryData"></textarea>
+                </div>
 
-    <label>Derived From Another Source?</label>
-    <textarea id="derivedSource"></textarea>
+            </details>
 
-    <label>Recommended Citation</label>
-    <textarea id="citation"></textarea>
+            <details>
+                <summary>Sharing / Access Information</summary>
 
-    <h2>Data & File Overview</h2>
+                <div class="section-content">
 
-    <label>File List</label>
-    <textarea id="fileList"></textarea>
+                    <label>Licenses / Restrictions</label>
+                    <textarea id="license"></textarea>
 
-    <label>Relationship Between Files</label>
-    <textarea id="fileRelationships"></textarea>
+                    <label>Publications</label>
+                    <textarea id="publications"></textarea>
 
-    <label>Additional Related Data</label>
-    <textarea id="additionalData"></textarea>
+                    <label>Public Locations</label>
+                    <textarea id="publicLocations"></textarea>
 
-    <label>Updated Files</label>
-    <textarea id="updatedFiles"></textarea>
+                    <label>Ancillary Datasets</label>
+                    <textarea id="ancillaryData"></textarea>
 
-    <label>Reason Updated</label>
-    <textarea id="updateReason"></textarea>
+                    <label>Derived Source</label>
+                    <textarea id="derivedSource"></textarea>
 
-    <label>Date Updated</label>
-    <input type="date" id="updateDate">
+                    <label>Citation</label>
+                    <textarea id="citation"></textarea>
 
-    <h2>Methodological Information</h2>
+                </div>
+            </details>
 
-    <label>Methods</label>
-    <textarea id="methods"></textarea>
+            <details>
+                <summary>Data & File Overview</summary>
 
-    <label>Processing Methods</label>
-    <textarea id="processing"></textarea>
+                <div class="section-content">
 
-    <label>Software Information</label>
-    <textarea id="software"></textarea>
+                    <textarea id="fileList" placeholder="File List"></textarea>
 
-    <label>Standards & Calibration</label>
-    <textarea id="standards"></textarea>
+                    <textarea id="fileRelationships"
+                        placeholder="Relationships">
+                    </textarea>
 
-    <label>Environmental Conditions</label>
-    <textarea id="conditions"></textarea>
+                    <textarea id="additionalData"
+                        placeholder="Additional Data">
+                    </textarea>
 
-    <label>QA Procedures</label>
-    <textarea id="qa"></textarea>
+                    <textarea id="updatedFiles"
+                        placeholder="Updated Files">
+                    </textarea>
 
-    <label>Personnel</label>
-    <textarea id="personnel"></textarea>
+                    <textarea id="updateReason"
+                        placeholder="Update Reason">
+                    </textarea>
 
-    <h2>Datasets / Files</h2>
+                    <input id="updateDate" type="date">
 
-    <button id="addDataset">
-        Add Dataset/File
-    </button>
+                </div>
+            </details>
 
-    <div id="datasets"></div>
+            <details>
+                <summary>Methodological Information</summary>
 
-    <h2>Optional Sections</h2>
+                <div class="section-content">
 
-    <button id="addSection">
-        Add Section
-    </button>
+                    <textarea id="methods"
+                        placeholder="Methods">
+                    </textarea>
 
-    <div id="customSections"></div>
+                    <textarea id="processing"
+                        placeholder="Processing">
+                    </textarea>
 
-    <hr>
+                    <textarea id="software"
+                        placeholder="Software">
+                    </textarea>
 
-    <button id="exportButton">
-        Export README.txt
-    </button>
+                    <textarea id="standards"
+                        placeholder="Standards">
+                    </textarea>
 
-    <h2>Preview</h2>
+                    <textarea id="conditions"
+                        placeholder="Conditions">
+                    </textarea>
 
-    <pre id="preview"></pre>
+                    <textarea id="qa"
+                        placeholder="QA Procedures">
+                    </textarea>
+
+                    <textarea id="personnel"
+                        placeholder="Personnel">
+                    </textarea>
+
+                </div>
+            </details>
+
+            <h2>Datasets / Files</h2>
+
+            <button id="addDataset">
+                Add Dataset/File
+            </button>
+
+            <div id="datasets"></div>
+
+            <h2>Optional Sections</h2>
+
+            <button id="addSection">
+                Add Section
+            </button>
+
+            <div id="customSections"></div>
+
+        </div>
+
+        <div class="panel">
+
+            <h2>Live README Preview</h2>
+
+            <div id="preview" class="preview"></div>
+
+        </div>
+
+    </div>
 
 </div>
 
