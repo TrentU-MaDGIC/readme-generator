@@ -1,57 +1,138 @@
+:root {
+  --primary: #005ea8;
+  --primary-hover: #00457a;
+  --border: #d0d7de;
+  --background: #f6f8fa;
+  --card: #ffffff;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #f5f5f5;
-    padding: 20px;
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: var(--background);
 }
 
 .container {
-    background: white;
-    max-width: 1200px;
-    margin: auto;
-    padding: 25px;
-    border-radius: 8px;
+  max-width: 1400px;
+  margin: auto;
+  padding: 20px;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+details {
+  margin-bottom: 15px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: white;
+}
+
+summary {
+  cursor: pointer;
+  padding: 12px;
+  font-weight: bold;
+}
+
+.section-content {
+  padding: 15px;
 }
 
 label {
-    display: block;
-    margin-top: 12px;
-    font-weight: bold;
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
 }
 
+input,
 textarea,
-input {
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 4px;
-    margin-bottom: 10px;
-    padding: 8px;
+select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 textarea {
-    min-height: 80px;
+  min-height: 80px;
+}
+
+.required::after {
+  content: " *";
+  color: red;
 }
 
 button {
-    padding: 8px 16px;
-    margin-top: 10px;
-    cursor: pointer;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 14px;
+  cursor: pointer;
 }
 
-.dataset {
-    border: 1px solid #cccccc;
-    padding: 12px;
-    margin-top: 12px;
+button:hover {
+  background: var(--primary-hover);
 }
 
+.secondary {
+  background: #666;
+}
+
+.secondary:hover {
+  background: #444;
+}
+
+.dataset,
 .custom-section {
-    border: 1px solid #cccccc;
-    padding: 12px;
-    margin-top: 12px;
+  margin-top: 15px;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
 }
 
-pre {
-    background: #f0f0f0;
-    padding: 15px;
-    overflow-x: auto;
-    white-space: pre-wrap;
+.preview {
+  white-space: pre-wrap;
+  font-family: Consolas, monospace;
+  background: #fafafa;
+  padding: 15px;
+  min-height: 600px;
+  overflow-y: auto;
+}
+
+.export-bar {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+
+.validation {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 1000px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
 }
