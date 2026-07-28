@@ -483,50 +483,6 @@ function generateReadme() {
   return out;
 }
 
-  // DATASETS
-
-  document.querySelectorAll(".dataset").forEach((dataset) => {
-    const filename =
-      dataset.querySelector(".filename").value || "[FILENAME]";
-
-    out += `DATA-SPECIFIC INFORMATION FOR: ${filename}\n`;
-    out += "========================================\n\n";
-
-    out += "Number of Variables:\n";
-    out += dataset.querySelector(".variables").value + "\n\n";
-
-    out += "Number of Cases/Rows:\n";
-    out += dataset.querySelector(".rows").value + "\n\n";
-
-    out += "Variable List:\n";
-    out += dataset.querySelector(".variableList").value + "\n\n";
-
-    out += "Missing Data Codes:\n";
-    out += dataset.querySelector(".missingCodes").value + "\n\n";
-
-    out += "Specialized Formats or Abbreviations:\n";
-    out += dataset.querySelector(".abbreviations").value + "\n\n";
-  });
-
-  // CUSTOM SECTIONS
-
-  document.querySelectorAll(".custom-section").forEach((section) => {
-    const title =
-      section.querySelector(".sectionTitle").value;
-
-    const content =
-      section.querySelector(".sectionContent").value;
-
-    if (title.trim() !== "") {
-      out += title.toUpperCase() + "\n";
-      out += "=".repeat(title.length) + "\n\n";
-      out += content + "\n\n";
-    }
-  });
-
-  return out;
-}
-
 
 function validateForm() {
 
