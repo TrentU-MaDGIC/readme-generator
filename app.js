@@ -285,7 +285,10 @@ function updatePreview() {
 // ======================
 
 function exportReadme() {
-  if (!validateForm()) {2  alert(3    "Please complete required fields before exporting."4  );5  return;6}
+  if (!validateForm()) {  
+    alert("Please complete required fields before exporting.");
+    return;
+  }
   
   const content = generateReadme();
 
