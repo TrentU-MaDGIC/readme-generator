@@ -20,8 +20,12 @@ document
   .addEventListener("click", addSection);
 
 document
-  .getElementById("exportButton")
-  .addEventListener("click", exportReadme);
+  .getElementById("exportTxtButton")
+  .addEventListener("click", exportTxt);
+
+document
+  .getElementById("exportMdButton")
+  .addEventListener("click", exportMarkdown);
 
 document.addEventListener("input", updatePreview);
 
@@ -172,6 +176,121 @@ function hasContent(...fields) {
   return fields.some(
     field => field && field.trim() !== ""
   );
+}
+
+function generateMarkdown() {
+
+  let out = "";
+
+  out += `# ${value("datasetTitle")}\n\n`;
+
+  out += `README generated on ${new Date().toISOString().split("T")[0]} by ${value("generatedBy")}\n\n`;
+
+  out += `## General Information\n\n`;
+
+  out += `**Date of data collection:** ${value("collectionDate")}\n\n`;
+
+  out += `**Geographic location:** ${value("location")}\n\n`;
+
+  out += `**Funding sources:**\n\n${value("funding")}\n\n`;
+
+  document
+    .querySelectorAll(".contact")
+    .forEach(contact => {
+
+      const role =
+        contact.querySelector(".contactRole").value;
+
+      const name =
+        contact.querySelector(".contactName").value;
+
+      const institution =
+        contact.querySelector(".contactInstitution").value;
+
+      const email =
+        contact.querySelector(".contactEmail").value;
+
+      out += `### ${role}\n\n`;
+
+      if (name)
+        out += `**Name:** ${name}\n\n`;
+
+      if (institution)
+        out += `**Institution:** ${institution}\n\n`;
+
+      if (email)
+        out += `**Email:** ${email}\n\n`;
+    });
+
+  if (
+    hasContent(
+      value("license"),
+      value("publications"),
+      value("publicLocations"),
+      value("citation")
+    )
+  ) {
+
+    out += `## Sharing / Access Information\n\n`;
+
+    if (value("license")) {
+      out += `### Licenses / Restrictions\n`;
+      out += `${value("license")}\n\n`;
+    }
+
+    if (value("publications")) {
+      out += `### Publications\n`;
+      out += `${value("publications")}\n\n`;
+    }
+
+    if (value("publicLocations")) {
+      out += `### Public Data Locations\n`;
+      out += `${value("publicLocations")}\n\n`;
+    }
+
+    if (value("citation")) {
+      out += `### Citation\n`;
+      out += `${value("citation")}\n\n`;
+    }
+
+  }
+
+  document
+    .querySelectorAll(".dataset")
+    .forEach(dataset => {
+
+      const filename =
+        dataset.querySelector(".filename").value;
+
+      if (!filename.trim()) return;
+
+      out += `## Dataset: ${filename}\n\n`;
+
+      const variableList =
+        dataset.querySelector(".variableList").value;
+
+      const rows =
+        dataset.querySelector(".rows").value;
+
+      const variables =
+        dataset.querySelector(".variables").value;
+
+      if (variables) {
+        out += `**Number of variables:** ${variables}\n\n`;
+      }
+
+      if (rows) {
+        out += `**Number of rows:** ${rows}\n\n`;
+      }
+
+      if (variableList) {
+        out += `### Variable List\n`;
+        out += `${variableList}\n\n`;
+      }
+
+    });
+
+  return out;
 }
 
 function generateReadme() {
@@ -586,7 +705,7 @@ function updatePreview() {
 // Export
 // ======================
 
-function exportReadme() {
+function exportTxt() {
   
   showValidationErrors = true;
 
@@ -617,6 +736,42 @@ function exportReadme() {
 
   a.href = url;
   a.download = "README.txt";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  document.body.removeChild(a);
+
+  URL.revokeObjectURL(url);
+}
+
+function exportMarkdown() {
+
+  showValidationErrors = true;
+
+  if (!validateForm(true)) {
+
+    alert(
+      "Please complete required fields before exporting."
+    );
+
+    return;
+  }
+
+  const content = generateMarkdown();
+
+  const blob = new Blob(
+    [content],
+    { type: "text/markdown" }
+  );
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "README.md";
 
   document.body.appendChild(a);
 
