@@ -182,17 +182,17 @@ function generateMarkdown() {
 
   let out = "";
 
-  out += `# ${value("datasetTitle")}\n\n`;
+  const today =
+    new Date().toISOString().split("T")[0];
 
-  out += `README generated on ${new Date().toISOString().split("T")[0]} by ${value("generatedBy")}\n\n`;
+  out += `This readme file was generated on ${today} by ${value("generatedBy")}\n\n`;
 
-  out += `## General Information\n\n`;
+  out += "GENERAL INFORMATION\n";
+  out += "===================\n\n";
 
-  out += `**Date of data collection:** ${value("collectionDate")}\n\n`;
+  out += `Title of Dataset: ${value("datasetTitle")}\n\n`;
 
-  out += `**Geographic location:** ${value("location")}\n\n`;
-
-  out += `**Funding sources:**\n\n${value("funding")}\n\n`;
+  // CONTACTS
 
   document
     .querySelectorAll(".contact")
@@ -204,56 +204,211 @@ function generateMarkdown() {
       const name =
         contact.querySelector(".contactName").value;
 
+      const orcid =
+        contact.querySelector(".contactOrcid").value;
+
       const institution =
         contact.querySelector(".contactInstitution").value;
+
+      const address =
+        contact.querySelector(".contactAddress").value;
 
       const email =
         contact.querySelector(".contactEmail").value;
 
-      out += `### ${role}\n\n`;
+      // Skip completely empty optional contacts
+      if (
+        !hasContent(
+          role,
+          name,
+          orcid,
+          institution,
+          address,
+          email
+        )
+      ) {
+        return;
+      }
+
+      out += `${role}\n`;
+      out += "--------------------------\n";
 
       if (name)
-        out += `**Name:** ${name}\n\n`;
+        out += `Name: ${name}\n`;
+
+      if (orcid)
+        out += `ORCID: ${orcid}\n`;
 
       if (institution)
-        out += `**Institution:** ${institution}\n\n`;
+        out += `Institution: ${institution}\n`;
+
+      if (address)
+        out += `Address: ${address}\n`;
 
       if (email)
-        out += `**Email:** ${email}\n\n`;
+        out += `Email: ${email}\n`;
+
+      out += "\n";
+
     });
+
+  out += `Date of data collection: ${value("collectionDate")}\n\n`;
+
+  out += `Geographic location of data collection: ${value("location")}\n\n`;
+
+  out += `Information about funding sources that supported the collection of the data:\n${value("funding")}\n\n`;
+
+  // SHARING / ACCESS
 
   if (
     hasContent(
       value("license"),
       value("publications"),
       value("publicLocations"),
+      value("ancillaryData"),
+      value("derivedSource"),
       value("citation")
     )
   ) {
 
-    out += `## Sharing / Access Information\n\n`;
+    out += "SHARING/ACCESS INFORMATION\n";
+    out += "==========================\n\n";
 
     if (value("license")) {
-      out += `### Licenses / Restrictions\n`;
-      out += `${value("license")}\n\n`;
+      out += "Licenses/restrictions placed on the data:\n";
+      out += value("license") + "\n\n";
     }
 
     if (value("publications")) {
-      out += `### Publications\n`;
-      out += `${value("publications")}\n\n`;
+      out += "Links to publications that cite or use the data:\n";
+      out += value("publications") + "\n\n";
     }
 
     if (value("publicLocations")) {
-      out += `### Public Data Locations\n`;
-      out += `${value("publicLocations")}\n\n`;
+      out += "Links to other publicly accessible locations of the data:\n";
+      out += value("publicLocations") + "\n\n";
+    }
+
+    if (value("ancillaryData")) {
+      out += "Links/relationships to ancillary data sets:\n";
+      out += value("ancillaryData") + "\n\n";
+    }
+
+    if (value("derivedSource")) {
+      out += "Was data derived from another source?\n";
+      out += value("derivedSource") + "\n\n";
     }
 
     if (value("citation")) {
-      out += `### Citation\n`;
-      out += `${value("citation")}\n\n`;
+      out += "Recommended citation for this dataset:\n";
+      out += value("citation") + "\n\n";
     }
 
   }
+
+  // DATA & FILE OVERVIEW
+
+  if (
+    hasContent(
+      value("fileList"),
+      value("fileRelationships"),
+      value("additionalData"),
+      value("updatedFiles"),
+      value("updateReason"),
+      value("updateDate")
+    )
+  ) {
+
+    out += "DATA & FILE OVERVIEW\n";
+    out += "====================\n\n";
+
+    if (value("fileList")) {
+      out += "File List:\n";
+      out += value("fileList") + "\n\n";
+    }
+
+    if (value("fileRelationships")) {
+      out += "Relationship between files:\n";
+      out += value("fileRelationships") + "\n\n";
+    }
+
+    if (value("additionalData")) {
+      out += "Additional related data collected that was not included in the current data package:\n";
+      out += value("additionalData") + "\n\n";
+    }
+
+    if (value("updatedFiles")) {
+      out += "Name of updated file(s):\n";
+      out += value("updatedFiles") + "\n\n";
+    }
+
+    if (value("updateReason")) {
+      out += "Why was the file updated?\n";
+      out += value("updateReason") + "\n\n";
+    }
+
+    if (value("updateDate")) {
+      out += "When was the file updated?\n";
+      out += value("updateDate") + "\n\n";
+    }
+
+  }
+
+  // METHODOLOGICAL INFORMATION
+
+  if (
+    hasContent(
+      value("methods"),
+      value("processing"),
+      value("software"),
+      value("standards"),
+      value("conditions"),
+      value("qa"),
+      value("personnel")
+    )
+  ) {
+
+    out += "METHODOLOGICAL INFORMATION\n";
+    out += "==========================\n\n";
+
+    if (value("methods")) {
+      out += "Description of methods used for collection/generation of data:\n";
+      out += value("methods") + "\n\n";
+    }
+
+    if (value("processing")) {
+      out += "Methods for processing the data:\n";
+      out += value("processing") + "\n\n";
+    }
+
+    if (value("software")) {
+      out += "Instrument- or software-specific information needed to interpret the data:\n";
+      out += value("software") + "\n\n";
+    }
+
+    if (value("standards")) {
+      out += "Standards and calibration information:\n";
+      out += value("standards") + "\n\n";
+    }
+
+    if (value("conditions")) {
+      out += "Environmental/experimental conditions:\n";
+      out += value("conditions") + "\n\n";
+    }
+
+    if (value("qa")) {
+      out += "Quality-assurance procedures:\n";
+      out += value("qa") + "\n\n";
+    }
+
+    if (value("personnel")) {
+      out += "People involved with sample collection, processing, analysis and/or submission:\n";
+      out += value("personnel") + "\n\n";
+    }
+
+  }
+
+  // DATASETS
 
   document
     .querySelectorAll(".dataset")
@@ -262,36 +417,77 @@ function generateMarkdown() {
       const filename =
         dataset.querySelector(".filename").value;
 
-      if (!filename.trim()) return;
+      if (!filename.trim()) {
+        return;
+      }
 
-      out += `## Dataset: ${filename}\n\n`;
-
-      const variableList =
-        dataset.querySelector(".variableList").value;
-
-      const rows =
-        dataset.querySelector(".rows").value;
+      out += `DATA-SPECIFIC INFORMATION FOR: ${filename}\n`;
+      out += "==========================================\n\n";
 
       const variables =
         dataset.querySelector(".variables").value;
 
+      const rows =
+        dataset.querySelector(".rows").value;
+
+      const variableList =
+        dataset.querySelector(".variableList").value;
+
+      const missingCodes =
+        dataset.querySelector(".missingCodes").value;
+
+      const abbreviations =
+        dataset.querySelector(".abbreviations").value;
+
       if (variables) {
-        out += `**Number of variables:** ${variables}\n\n`;
+        out += `Number of variables:\n${variables}\n\n`;
       }
 
       if (rows) {
-        out += `**Number of rows:** ${rows}\n\n`;
+        out += `Number of cases/rows:\n${rows}\n\n`;
       }
 
       if (variableList) {
-        out += `### Variable List\n`;
-        out += `${variableList}\n\n`;
+        out += `Variable List:\n${variableList}\n\n`;
       }
+
+      if (missingCodes) {
+        out += `Missing data codes:\n${missingCodes}\n\n`;
+      }
+
+      if (abbreviations) {
+        out += `Specialized formats or abbreviations used:\n${abbreviations}\n\n`;
+      }
+
+    });
+
+  // CUSTOM SECTIONS
+
+  document
+    .querySelectorAll(".custom-section")
+    .forEach(section => {
+
+      const title =
+        section.querySelector(".sectionTitle").value;
+
+      const content =
+        section.querySelector(".sectionContent").value;
+
+      if (
+        !hasContent(title, content)
+      ) {
+        return;
+      }
+
+      out += `${title}\n`;
+      out += `${"=".repeat(title.length)}\n\n`;
+      out += `${content}\n\n`;
 
     });
 
   return out;
 }
+
 
 function generateReadme() {
 
