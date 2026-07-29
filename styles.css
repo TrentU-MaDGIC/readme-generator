@@ -131,6 +131,22 @@ button:hover {
   margin-bottom: 10px;
 }
 
+.instructions {
+    background-color: #f8f9fa;
+    border-left: 4px solid #005ea8;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.instructions p {
+    margin: 0 0 10px 0;
+}
+
+.instructions p:last-child {
+    margin-bottom: 0;
+}
+
 @media (max-width: 1000px) {
   .layout {
     grid-template-columns: 1fr;
